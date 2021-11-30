@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const userRoutes = require('./routes/user_routes');
 
 const app = express();
 
@@ -14,8 +15,6 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-app.use((req, res) => {
-   res.json({ message: 'Votre requête a bien été reçue immédiatement !' }); 
-});
+app.use('/api/user', userRoutes);
 
 module.exports = app;
