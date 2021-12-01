@@ -1,5 +1,6 @@
 const {insertUser} = require('../models/User_models');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 exports.signup = async (req, res, next) => {
@@ -15,6 +16,17 @@ exports.signup = async (req, res, next) => {
     }
     catch(err) {
         console.log(err);
-        res.status(500).send({err: 'Utilisateur non inscrit !'})
+        res.status(500).send({err: 'Utilisateur non enregistré !'})
+    }
+}
+
+module.exports.login = async (req, res, next) => {
+    const {email, password} = req.body;
+
+    try {
+        jwt.sign({id}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
+    }
+    catch {
+        res.status(200).send({err: 'Utilisateur non inscrit !'});
     }
 }
