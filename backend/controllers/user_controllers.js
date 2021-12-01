@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
+const createToken = (id) => {
+    return jwt.sign({id}, process.env.TOKEN_SECRET, { expiresIn: maxAge })
+}
+
 exports.signup = async (req, res, next) => {
     try {
         const name = req.body.name.trim(); const firstname = req.body.firstname.trim(); const email = req.body.email.trim(); const password = req.body.password.trim();
@@ -22,33 +26,30 @@ exports.signup = async (req, res, next) => {
 }
 
 module.exports.login = async (req, res, next) => {
+    const {email, password} = req.body;
 
     try {
-        
-        const {email, password} = req.body;
         const user = await getOne(email, password)
+        
         if(user) {
             const auth = await bcrypt.compare(password, user.password);
             if(auth) {
-                res.status(200).json({
-                    userId: user._id,
-                    token: jwt.sign(
-                        {userId: user._id },
-                        process.env.TOKEN_SECRET,
-                        { expiresIn: maxAge }
-                    )
-                })
-                return res.status(500).json({ error: "Impossible de se connecter !" })
+                console.log(user.id);
+                const token = createToken(user.id)
+                res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
+                return res.status(200).json({user: user.id});
             }
             return res.status(400).json({message: 'Mot de passe incorrect !'})
         }
         return res.status(400).json({message: 'Email incorrect !'})
-        
-
-        
     }
     catch(err) {
         console.log(err);
         return res.status(500).send({err: 'Utilisateur non inscrit !'});
     }
+}
+
+module.exports.logout = (req, res, next) => {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.redirect('/');
 }
