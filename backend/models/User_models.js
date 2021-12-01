@@ -20,3 +20,23 @@ exports.getOne = async (email, password) => {
         res.status(400).send({err: "L'utilisateur n'existe pas !"})
     }
 }
+
+exports.findUser = async (id) => {
+    try {
+        const answer = await query("SELECT id FROM users WHERE id LIKE ?", [id]);
+        return answer[0];
+    }
+    catch(err) {
+        res.status(400).send({err: 'Utilisateur non trouvé !'})
+    }
+}
+
+exports.getUser = async (id) => {
+    try {
+        const answer = await query("SELECT * FROM users WHERE id = ?", [id])
+        return answer[0];
+    }
+    catch(err) {
+        res.status(400).json({ message: 'Utilisateur non trouvé !'});
+    }
+}
