@@ -25,7 +25,7 @@ exports.signup = async (req, res, next) => {
     }
 }
 
-module.exports.login = async (req, res, next) => {
+exports.login = async (req, res, next) => {
     const {email, password} = req.body;
 
     try {
@@ -49,7 +49,7 @@ module.exports.login = async (req, res, next) => {
     }
 }
 
-module.exports.logout = (req, res, next) => {
+exports.logout = (req, res, next) => {
     res.cookie('jwt', '', { maxAge: 1 });
-    res.redirect('/');
+    res.status(200).json('OUT');
 }

@@ -1,6 +1,6 @@
-const {query, getOne} = require('../database/database');
+const {query} = require('../database/database');
 
-module.exports.insertUser = async (name, firstname, email, password) => {
+exports.insertUser = async (name, firstname, email, password) => {
     try {
         await query("INSERT INTO `users` (`name`, `firstname`, `email`, `password`) VALUES (?,?,?,?)", [name, firstname, email, password]);
     }
@@ -10,7 +10,7 @@ module.exports.insertUser = async (name, firstname, email, password) => {
     }
 };
 
-module.exports.getOne = async (email, password) => {
+exports.getOne = async (email, password) => {
     try {
         const answer = await query("SELECT * FROM users WHERE email LIKE ?", [email, password]);
         return answer[0];
