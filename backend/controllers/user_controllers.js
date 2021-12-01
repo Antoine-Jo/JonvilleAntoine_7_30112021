@@ -1,7 +1,8 @@
-const {insertUser} = require('../models/User_models');
+const {insertUser, getOne} = require('../models/User_models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 exports.signup = async (req, res, next) => {
     try {
@@ -21,12 +22,33 @@ exports.signup = async (req, res, next) => {
 }
 
 module.exports.login = async (req, res, next) => {
-    const {email, password} = req.body;
 
     try {
-        jwt.sign({id}, process.env.TOKEN_SECRET, {expiresIn: '24h'})
+        
+        const {email, password} = req.body;
+        const user = await getOne(email, password)
+        if(user) {
+            const auth = await bcrypt.compare(password, user.password);
+            if(auth) {
+                res.status(200).json({
+                    userId: user._id,
+                    token: jwt.sign(
+                        {userId: user._id },
+                        process.env.TOKEN_SECRET,
+                        { expiresIn: maxAge }
+                    )
+                })
+                return res.status(500).json({ error: "Impossible de se connecter !" })
+            }
+            return res.status(400).json({message: 'Mot de passe incorrect !'})
+        }
+        return res.status(400).json({message: 'Email incorrect !'})
+        
+
+        
     }
-    catch {
-        res.status(200).send({err: 'Utilisateur non inscrit !'});
+    catch(err) {
+        console.log(err);
+        return res.status(500).send({err: 'Utilisateur non inscrit !'});
     }
 }

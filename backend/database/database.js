@@ -18,18 +18,13 @@ exports.query = async (sql, props) => {
         res = await conn.query(sql, props);
     } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Impossible de se connecter"});
+        return res.status(500).json({message: "Impossible de se connecter"});
     } finally {
         if(conn) conn.release(); //release to pool
         // if (res.meta) delete res.meta; //delete meta
         console.log('Je suis connecter !');
         return res;
     }
-}
-
-async function getOne(sql, props) {
-    const answer = await query(sql, props);
-    return answer[0];
 }
 
 // modules.export = {
