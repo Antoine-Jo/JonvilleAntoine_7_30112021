@@ -1,4 +1,4 @@
-const {getUser, updateUser} = require('../models/User_models');
+const {getUser, updateUser, deleteUser} = require('../models/User_models');
 const jwt = require('jsonwebtoken');
 
 exports.userInfo = async (req, res, next) => {
@@ -26,11 +26,27 @@ exports.updateOneUser = async (req, res, next) => {
         }
         else {
             await updateUser(name, firstname, email, req.params.id)
-           return res.status(200).send('Modification réussi !')
+            return res.status(200).send('Modification réussi !')
         }
    }
    catch(err) {
        console.log(err);
         return res.status(400).send('Une erreur est survenue !!')
    }
+}
+
+exports.deleteOneUser = async (req, res, next) => {
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
+    try {
+        if(decodedToken.id == req.params.id) {
+            await deleteUser(req.params.id)
+            return res.status(200).send('Votre compte a été supprimé !')
+        } else {
+            return res.status(400).send("Vous n'êtes pas autorisé à supprimer ce profil !")
+        }
+    }
+    catch(err) {
+        return res.status(400).send('Une erreur est survenue !!')
+    }
 }

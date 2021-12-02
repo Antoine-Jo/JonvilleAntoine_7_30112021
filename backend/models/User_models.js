@@ -51,3 +51,13 @@ exports.updateUser = async (name, firstname, email, id) => {
         return res.status(400).send({err: 'Impossible de modifier !'})
     }
 }
+
+exports.deleteUser = async (id) => {
+    try {
+        const answer = await query("DELETE FROM users WHERE id = ?", [id])
+        return answer[0];
+    }
+    catch(err) {
+        return res.status(400).send({err: 'Impossible de supprimer !'})
+    }
+}

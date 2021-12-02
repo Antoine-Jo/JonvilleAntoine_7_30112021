@@ -39,9 +39,9 @@ exports.login = async (req, res, next) => {
                 res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
                 return res.status(200).json({user: user.id});
             }
-            return res.status(400).json({message: 'Mot de passe incorrect !'})
+            return res.status(400).send({message: 'Mot de passe incorrect !'})
         }
-        return res.status(400).json({message: 'Email incorrect !'})
+        return res.status(400).send({message: 'Email incorrect !'})
     }
     catch(err) {
         console.log(err);
