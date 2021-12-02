@@ -41,7 +41,7 @@ exports.login = async (req, res, next) => {
             }
             return res.status(400).send({message: 'Mot de passe incorrect !'})
         }
-        return res.status(400).send({message: 'Email incorrect !'})
+        return res.status(400).json({message: 'Email incorrect !'})
     }
     catch(err) {
         console.log(err);
