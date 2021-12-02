@@ -11,5 +11,6 @@ router.get('/logout', authCtrl.logout);
 
 // Routes GET / UPDATE / DELETE
 router.get('/:id', auth, userCtrl.userInfo);
+router.put('/:id', auth, userCtrl.updateOneUser);
 
 module.exports = router;

@@ -11,6 +11,9 @@ module.exports = async (req, res, next) => {
 
                 if (err) {
                     return res.status(400).send('Requête non autorisée !')
+                } else {
+                    // console.log(result);
+                    return res.status(200).json(JSON.stringify(userId.id))
                 }
             })
             next();
@@ -20,7 +23,7 @@ module.exports = async (req, res, next) => {
     }
     catch(err) {
         res.clearCookie();
-        console.log(err);
-        return res.status(401).json({ message: 'Non autorisé !!'});
+        // console.log(err);
+        return res.status(401).json({ message: 'Non autorisé !'});
     }
 }
