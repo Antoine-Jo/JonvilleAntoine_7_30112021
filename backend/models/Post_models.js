@@ -11,6 +11,15 @@ exports.insertPost = async (userId, text) => {
     }
 }
 
+exports.getPosts = async () => {
+    try {
+        return await query("SELECT * FROM posts ORDER BY createdate DESC");
+    }
+    catch {
+        res.status(400).send("Une erreur est survenue !")
+    }
+}
+
 exports.getPost = async (idposts) => {
     try {
         const answer = await query("SELECT * FROM posts WHERE idposts = ?", [idposts])

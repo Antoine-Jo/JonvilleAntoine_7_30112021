@@ -1,4 +1,4 @@
-const { insertPost, updatePost, getPost, deletePost } = require('../models/Post_models');
+const { insertPost, updatePost, getPost, deletePost, getPosts } = require('../models/Post_models');
 const jwt = require('jsonwebtoken');
 
 
@@ -15,6 +15,16 @@ exports.createPost = async (req, res, next) => {
     catch(err) {
         console.log(err);
         return res.status(400).send('Une erreur est survenue !!')
+    }
+}
+
+exports.getAllPost = async (req, res) => {
+    try {
+        const allPosts = await getPosts()
+        return res.status(200).json(allPosts)
+    }
+    catch(err) {
+        res.status(404).send({err})
     }
 }
 
