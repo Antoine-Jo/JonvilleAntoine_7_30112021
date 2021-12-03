@@ -10,3 +10,33 @@ exports.insertPost = async (userId, text) => {
         return res.status(400).send({err: 'Création du post a échouée !'})
     }
 }
+
+exports.getPost = async (idposts) => {
+    try {
+        const answer = await query("SELECT * FROM posts WHERE idposts = ?", [idposts])
+        return answer[0];
+    }
+    catch(err) {
+        return res.status(400).json({ message: 'Post non trouvé !'});
+    }
+}
+
+exports.updatePost = async (text, idposts, userid) => {
+    try {
+        await query("UPDATE posts SET text = ? WHERE idposts = ? AND userid = ?", [text, idposts, userid])
+    }
+    catch {
+        console.log(err);
+        return res.status(400).send({err: 'Impossible de modifier !'})
+    }
+}
+
+exports.deletePost = async (idposts, userid) => {
+    try {
+        const answer = await query("DELETE FROM posts WHERE idposts = ? AND userid = ?", [idposts, userid])
+        return answer[0];
+    }
+    catch {
+        return res.status(400).send({err: 'Impossible à supprimer !'})
+    }
+}
