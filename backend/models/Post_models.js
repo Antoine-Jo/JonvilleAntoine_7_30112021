@@ -1,4 +1,4 @@
-const { query } = require("express")
+const { query } = require("../database/database")
 
 
 exports.insertPost = async (userId, text) => {
