@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const userRoutes = require('./routes/user_routes');
+const postRoutes = require('./routes/post_routes');
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(cookieParser());
 
 
 app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
 
 module.exports = app;
