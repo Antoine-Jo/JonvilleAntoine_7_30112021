@@ -2,10 +2,11 @@ const {query} = require('../database/database');
 
 exports.insertUser = async (name, firstname, email, password) => {
     try {
-        await query("INSERT INTO `users` (`name`, `firstname`, `email`, `password`) VALUES (?,?,?,?)", [name, firstname, email, password]);
+        const user = await query("INSERT INTO `users` (`name`, `firstname`, `email`, `password`) VALUES (?,?,?,?)", [name, firstname, email, password]);
+        return user;
     }
     catch(err) {
-        console.log(err);
+        // console.log(err);
         return res.status(400).send({err: "L'inscription a échouée !"});
     }
 };

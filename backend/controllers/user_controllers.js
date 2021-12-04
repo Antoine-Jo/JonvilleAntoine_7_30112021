@@ -21,12 +21,12 @@ exports.updateOneUser = async (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
    try {
        if(decodedToken.id != req.params.id) {
-        return res.status(400).send("Vous n'êtes pas autorisé à modifier ce profil !")
+        return res.status(200).send({err : "Vous n'êtes pas autorisé à modifier ce profil !"})
            
         }
         else {
             await updateUser(name, firstname, email, req.params.id)
-            return res.status(200).send('Modification réussi !')
+            return res.status(200).send({message: 'Modification réussi !'})
         }
    }
    catch(err) {
@@ -41,9 +41,10 @@ exports.deleteOneUser = async (req, res, next) => {
     try {
         if(decodedToken.id == req.params.id) {
             await deleteUser(req.params.id)
-            return res.status(200).send('Votre compte a été supprimé !')
+            res.cookie('jwt', '', { maxAge: 1 })
+            return res.status(200).send({message: 'Votre compte a été supprimé !'})
         } else {
-            return res.status(400).send("Vous n'êtes pas autorisé à supprimer ce profil !")
+            return res.status(200).send({err: "Vous n'êtes pas autorisé à supprimer ce profil !"})
         }
     }
     catch(err) {

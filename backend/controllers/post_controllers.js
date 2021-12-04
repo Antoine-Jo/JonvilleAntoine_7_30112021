@@ -61,7 +61,7 @@ exports.updateOnePost = async (req, res) => {
                 await updatePost(text, postId, post.userid)
                 return res.status(200).send({message: 'Modification réussi !'})
             } else {
-                return res.status(400).send("Vous n'êtes pas autorisé à modifier ce post !")
+                return res.status(400).send({err : "Vous n'êtes pas autorisé à modifier ce post !"})
             }
         }
     }
@@ -83,7 +83,7 @@ exports.deleteOnePost = async (req, res) => {
 
             if (userId === post.userid) {
                 await deletePost(postId, post.userid)
-                return res.status(200).send('Suppression réussi !')
+                return res.status(200).send({message: 'Suppression réussi !'})
             } else {
                 return res.status(400).send("Vous n'êtes pas autorisé à supprimer ce post !")
             }

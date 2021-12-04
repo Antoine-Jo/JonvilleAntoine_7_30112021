@@ -16,14 +16,15 @@ exports.query = async (sql, props) => {
     try {
         conn = await pool.getConnection();
         res = await conn.query(sql, props);
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({message: "Impossible de se connecter"});
-    } finally {
+        return res;
+    } catch(err) {
+        throw err
+    }
+    finally {
         if(conn) conn.release(); //release to pool
         // if (res.meta) delete res.meta; //delete meta
         console.log('Je suis connecter !');
-        return res;
+        // return res;
     }
 }
 

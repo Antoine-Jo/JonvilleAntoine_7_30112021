@@ -20,8 +20,8 @@ exports.signup = async (req, res, next) => {
         res.status(200).json({message: 'Utilisateur créé !'})
     }
     catch(err) {
-        console.log(err);
-        res.status(500).send({err: 'Utilisateur non enregistré !'})
+        // console.log(err);
+        res.status(200).send({err: 'Email déjà enregistré ! '})
     }
 }
 
@@ -45,7 +45,7 @@ exports.login = async (req, res, next) => {
     }
     catch(err) {
         console.log(err);
-        return res.status(500).send({err: 'Utilisateur non inscrit !'});
+        return res.status(400).send({err: 'Utilisateur non inscrit !'});
     }
 }
 
