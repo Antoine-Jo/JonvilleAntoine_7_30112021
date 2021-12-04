@@ -59,7 +59,7 @@ exports.updateOnePost = async (req, res) => {
 
             if (userId === post.userid) {
                 await updatePost(text, postId, post.userid)
-                return res.status(200).send('Modification réussi !')
+                return res.status(200).send({message: 'Modification réussi !'})
             } else {
                 return res.status(400).send("Vous n'êtes pas autorisé à modifier ce post !")
             }
