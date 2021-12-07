@@ -1,8 +1,7 @@
 const { insertPost, updatePost, getPost, deletePost, getPosts } = require('../models/Post_models');
 const jwt = require('jsonwebtoken');
 
-
-exports.createPost = async (req, res, next) => {
+const createPost = async (req, res, next) => {
     try {
         let text = req.body.text;
         const token = req.cookies.jwt;
@@ -14,11 +13,11 @@ exports.createPost = async (req, res, next) => {
     }
     catch(err) {
         console.log(err);
-        return res.status(400).send('Une erreur est survenue !!')
+        return res.status(400).send({err: 'Création du post a échouée !'})
     }
-}
+};
 
-exports.getAllPost = async (req, res) => {
+const getAllPost = async (req, res) => {
     try {
         const allPosts = await getPosts()
         return res.status(200).json(allPosts)
@@ -26,70 +25,70 @@ exports.getAllPost = async (req, res) => {
     catch(err) {
         res.status(404).send({err})
     }
-}
+};
 
-exports.getOnePost = async (req, res) => {
+const getOnePost = async (req, res) => {
     try {
         const idposts = req.params.id
         const post = await getPost(idposts)
-        // console.log(post);
-        if(!post) {
-            return res.status(400).send({ err: "Post inexistant !"})
-        }
+        if(!post) throw {status : 404, msg: "Ce post est introuvable !"}
         return res.status(200).json(post)
     }
-    catch {
-        console.log(err);
-        return res.status(400).send({ err: "Post inexistant !"})
-    }
-}
-
-exports.updateOnePost = async (req, res) => {
-    try {
-        const postId = req.params.id
-        const post = await getPost(postId)
-        if(!post) {
-            return res.status(400).send({ err: "Post inexistant !"})
-        } else {
-            // res.status(200).json(post)
-            const text = req.body.text;
-            const token = req.cookies.jwt;
-            const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
-            const userId = decodedToken.id
-
-            if (userId === post.userid) {
-                await updatePost(text, postId, post.userid)
-                return res.status(200).send({message: 'Modification réussi !'})
-            } else {
-                return res.status(400).send({err : "Vous n'êtes pas autorisé à modifier ce post !"})
-            }
-        }
-    }
     catch(err) {
-        console.log(err);
+        return res
+        .status(err.status ? err.status : 500)
+        .send({ err: err.msg ? err.msg : "Erreur lors de la récupération du post !"})
     }
-}
+};
 
-exports.deleteOnePost = async (req, res) => {
-    try {
-        const postId = req.params.id
-        const post = await getPost(postId)
-        if(!post) {
-            return res.status(400).send({ err: "Post inexistant !"})
-        } else {
-            const token = req.cookies.jwt;
-            const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
-            const userId = decodedToken.id
+const updateOnePost = async (req, res) => {
+  try {
+    // if (req.auth.role !== "admin") return
+    const postId = req.params.id;
+    const post = await getPost(postId);
+    if (!post) throw {status:404, msg : "Ce post est introuvable !" };
+    const text = req.body.text;
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+    const userId = decodedToken.id;
+    if (userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
+      
+    await updatePost(text, postId, post.userid);
+    return res.status(200).send({ message: "Modification réussi !" });
+  } catch (err) {
+    console.log(err);
+    return res
+    .status(err.status ? err.status : 500)
+    .send({ err: err.msg ?err.msg : "Erreur lors de la modification du post !" });
+  }
+};
 
-            if (userId === post.userid) {
-                await deletePost(postId, post.userid)
-                return res.status(200).send({message: 'Suppression réussi !'})
-            } else {
-                return res.status(400).send("Vous n'êtes pas autorisé à supprimer ce post !")
-            }
-        }
-    }
-    catch {
-        return res.status(400).send('Une erreur est survenue !!')
-    }
+const deleteOnePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await getPost(postId);
+    if (!post) throw {status:404, msg : "Ce post est introuvable !" };
+
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+    const userId = decodedToken.id;
+
+    if(userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
+
+    await deletePost(postId, post.userid);
+    return res.status(200).send({ message: "Suppression réussi !" });
+    
+  } catch(err) {
+    return res
+    .status(err.status ? err.status : 500)
+    .send({ err: err.msg ?err.msg : "Erreur lors de la suppression du post !" });
+  }
+};
+
+module.exports = {
+    createPost,
+    getAllPost,
+    getOnePost,
+    updateOnePost,
+    deleteOnePost
 }

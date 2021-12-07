@@ -2,21 +2,21 @@ const { query } = require("../database/database")
 
 
 exports.insertPost = async (userId, text) => {
-    try {
+    // try {
         await query("INSERT INTO `posts` (`userid`, `text`, `createdate`) VALUES(?, ?, NOW())", [userId, text])
-    }
-    catch(err) {
-        console.log(err);
-        return res.status(400).send({err: 'Création du post a échouée !'})
-    }
+    // }
+    // catch(err) {
+    //     console.log(err);
+    //     throw {status : 400, msg: "Une erreur est survenue !"};
+    // }
 }
 
 exports.getPosts = async () => {
     try {
         return await query("SELECT * FROM posts ORDER BY createdate DESC");
     }
-    catch {
-        res.status(400).send("Une erreur est survenue !")
+    catch(err){
+        throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }
 
@@ -26,7 +26,7 @@ exports.getPost = async (idposts) => {
         return answer[0];
     }
     catch(err) {
-        return res.status(400).json({ message: 'Post non trouvé !'});
+        throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }
 

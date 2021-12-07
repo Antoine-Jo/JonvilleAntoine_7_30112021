@@ -11,9 +11,9 @@ module.exports = async (req, res, next) => {
 
                 if (err) {
                     return res.status(400).send('Requête non autorisée !')
-                } else {
-                    // console.log(result);
-                    return res.status(200).json(JSON.stringify(userId.id))
+                }
+                req.auth = {
+                    role : "user"
                 }
             })
             next();
