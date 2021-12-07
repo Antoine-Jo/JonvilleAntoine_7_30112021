@@ -1,7 +1,7 @@
 const {getUser, updateUser, deleteUser} = require('../models/User_models');
 const jwt = require('jsonwebtoken');
 
-exports.userInfo = async (req, res, next) => {
+const userInfo = async (req, res, next) => {
     // console.log(req.params)
     // const token = req.cookies.jwt;
     // const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -15,7 +15,7 @@ exports.userInfo = async (req, res, next) => {
         }
 }
 
-exports.updateOneUser = async (req, res, next) => {
+const updateOneUser = async (req, res, next) => {
     const {name, firstname, email} = req.body
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
@@ -35,7 +35,7 @@ exports.updateOneUser = async (req, res, next) => {
    }
 }
 
-exports.deleteOneUser = async (req, res, next) => {
+const deleteOneUser = async (req, res, next) => {
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
     try {
@@ -50,4 +50,10 @@ exports.deleteOneUser = async (req, res, next) => {
     catch(err) {
         return res.status(400).send('Une erreur est survenue !!')
     }
+}
+
+module.exports = {
+    userInfo,
+    updateOneUser,
+    deleteOneUser
 }

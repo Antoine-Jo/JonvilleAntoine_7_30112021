@@ -1,6 +1,6 @@
 const {query} = require('../database/database');
 
-exports.insertUser = async (name, firstname, email, password) => {
+const insertUser = async (name, firstname, email, password) => {
     try {
         const user = await query("INSERT INTO `users` (`name`, `firstname`, `email`, `password`) VALUES (?,?,?,?)", [name, firstname, email, password]);
         return user;
@@ -11,7 +11,7 @@ exports.insertUser = async (name, firstname, email, password) => {
     }
 };
 
-exports.getOne = async (email, password) => {
+const getOne = async (email, password) => {
     try {
         const answer = await query("SELECT * FROM users WHERE email LIKE ?", [email, password]);
         return answer[0];
@@ -22,7 +22,7 @@ exports.getOne = async (email, password) => {
     }
 }
 
-exports.findUser = async (id) => {
+const findUser = async (id) => {
     try {
         const answer = await query("SELECT id FROM users WHERE id LIKE ?", [id]);
         return answer[0];
@@ -32,7 +32,7 @@ exports.findUser = async (id) => {
     }
 }
 
-exports.getUser = async (id) => {
+const getUser = async (id) => {
     try {
         const answer = await query("SELECT * FROM users WHERE users.id = ?", [id])
         return answer[0];
@@ -42,7 +42,7 @@ exports.getUser = async (id) => {
     }
 }
 
-exports.updateUser = async (name, firstname, email, id) => {
+const updateUser = async (name, firstname, email, id) => {
     try {
         const answer = await query("UPDATE users SET name = ?, firstname = ?, email = ? WHERE users.id LIKE ?", [name, firstname, email, id])
         return answer[0];
@@ -53,7 +53,7 @@ exports.updateUser = async (name, firstname, email, id) => {
     }
 }
 
-exports.deleteUser = async (id) => {
+const deleteUser = async (id) => {
     try {
         const answer = await query("DELETE FROM users WHERE id = ?", [id])
         return answer[0];
@@ -61,4 +61,13 @@ exports.deleteUser = async (id) => {
     catch(err) {
         return res.status(400).send({err: 'Impossible de supprimer !'})
     }
+}
+
+module.exports = {
+    insertUser,
+    getOne,
+    findUser,
+    getUser,
+    updateUser,
+    deleteUser
 }

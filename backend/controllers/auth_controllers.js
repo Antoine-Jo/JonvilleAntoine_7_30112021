@@ -8,9 +8,9 @@ const createToken = (id) => {
     return jwt.sign({id}, process.env.TOKEN_SECRET, { expiresIn: maxAge })
 }
 
-exports.signup = async (req, res, next) => {
+const signup = async (req, res, next) => {
     try {
-        console.log(req)
+        // console.log(req)
         const name = req.body.name.trim(); const firstname = req.body.firstname.trim(); const email = req.body.email.trim(); const password = req.body.password.trim();
         if (name == "" || firstname == "" || email == "" || password == "") {
             return res.status(400).json({ message: 'Les champs doivent être remplis !'})
@@ -21,12 +21,12 @@ exports.signup = async (req, res, next) => {
         res.status(200).json({message: 'Utilisateur créé !'})
     }
     catch(err) {
-        console.log("erreur :" + err);
+        // console.log("erreur :" + err);
         res.status(400).send({err: 'Email déjà enregistré ! '})
     }
 }
 
-exports.login = async (req, res, next) => {
+const login = async (req, res, next) => {
     const {email, password} = req.body;
 
     try {
@@ -51,7 +51,13 @@ exports.login = async (req, res, next) => {
     }
 }
 
-exports.logout = (req, res, next) => {
+const logout = (req, res, next) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.status(200).json('OUT');
+}
+
+module.exports = {
+    signup,
+    login,
+    logout
 }
