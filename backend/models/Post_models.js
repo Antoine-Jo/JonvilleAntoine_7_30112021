@@ -1,7 +1,7 @@
 const { query } = require("../database/database")
 
 
-exports.insertPost = async (userId, text) => {
+const insertPost = async (userId, text) => {
     try {
         await query("INSERT INTO `posts` (`userid`, `text`, `createdate`) VALUES(?, ?, NOW())", [userId, text])
     }
@@ -10,18 +10,19 @@ exports.insertPost = async (userId, text) => {
     }
 }
 
-exports.getPosts = async () => {
+const getPosts = async () => {
     try {
-        return await query("SELECT * FROM posts ORDER BY createdate DESC");
+        return await query("SELECT name, firstname, text, createdate FROM users INNER JOIN posts ON users.id = posts.userid ORDER BY createdate DESC");
     }
     catch(err){
+        console.log(err);
         throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }
 
-exports.getPost = async (idposts) => {
+const getPost = async (idposts) => {
     try {
-        const answer = await query("SELECT * FROM posts WHERE idposts = ?", [idposts])
+        const answer = await query("SELECT name, firstname, text, createdate FROM groupomania.users INNER JOIN groupomania.posts ON users.id = posts.userid WHERE idposts = ?", [idposts])
         return answer[0];
     }
     catch(err) {
@@ -29,7 +30,7 @@ exports.getPost = async (idposts) => {
     }
 }
 
-exports.updatePost = async (text, idposts, userid) => {
+const updatePost = async (text, idposts, userid) => {
     try {
         await query("UPDATE posts SET text = ? WHERE idposts = ? AND userid = ?", [text, idposts, userid])
     }
@@ -38,7 +39,7 @@ exports.updatePost = async (text, idposts, userid) => {
     }
 }
 
-exports.deletePost = async (idposts, userid) => {
+const deletePost = async (idposts, userid) => {
     try {
         const answer = await query("DELETE FROM posts WHERE idposts = ? AND userid = ?", [idposts, userid])
         return answer[0];
@@ -46,4 +47,12 @@ exports.deletePost = async (idposts, userid) => {
     catch(err) {
         throw {status : 400, msg: "Une erreur est survenue !"};
     }
+}
+
+module.exports = {
+    deletePost,
+    updatePost,
+    getPost,
+    getPosts,
+    insertPost
 }
