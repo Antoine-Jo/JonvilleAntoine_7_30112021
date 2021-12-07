@@ -2,13 +2,12 @@ const { query } = require("../database/database")
 
 
 exports.insertPost = async (userId, text) => {
-    // try {
+    try {
         await query("INSERT INTO `posts` (`userid`, `text`, `createdate`) VALUES(?, ?, NOW())", [userId, text])
-    // }
-    // catch(err) {
-    //     console.log(err);
-    //     throw {status : 400, msg: "Une erreur est survenue !"};
-    // }
+    }
+    catch(err) {
+        throw {status : 400, msg: "Une erreur est survenue !"};
+    }
 }
 
 exports.getPosts = async () => {
@@ -34,9 +33,8 @@ exports.updatePost = async (text, idposts, userid) => {
     try {
         await query("UPDATE posts SET text = ? WHERE idposts = ? AND userid = ?", [text, idposts, userid])
     }
-    catch {
-        console.log(err);
-        return res.status(400).send({err: 'Impossible de modifier !'})
+    catch(err) {
+        throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }
 
@@ -45,7 +43,7 @@ exports.deletePost = async (idposts, userid) => {
         const answer = await query("DELETE FROM posts WHERE idposts = ? AND userid = ?", [idposts, userid])
         return answer[0];
     }
-    catch {
-        return res.status(400).send({err: 'Impossible à supprimer !'})
+    catch(err) {
+        throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }

@@ -12,8 +12,9 @@ const createPost = async (req, res, next) => {
         res.status(200).json({message: 'Votre post a été envoyé !'})
     }
     catch(err) {
-        console.log(err);
-        return res.status(400).send({err: 'Création du post a échouée !'})
+        return res
+        .status(err.status ? err.status : 500)
+        .send({err: err.msg ? err.msg : 'Erreur lors de la création du post !'})
     }
 };
 
@@ -23,7 +24,9 @@ const getAllPost = async (req, res) => {
         return res.status(200).json(allPosts)
     }
     catch(err) {
-        res.status(404).send({err})
+        return res
+        .status(err.status ? err.status : 500)
+        .send({err: err.msg ? err.msg : 'Erreur lors de la récupération des posts !'})
     }
 };
 
