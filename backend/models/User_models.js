@@ -6,8 +6,7 @@ const insertUser = async (name, firstname, email, password) => {
         return user;
     }
     catch(err) {
-        // console.log(err);
-        return res.status(400).send({err: "L'inscription a échouée !"});
+        throw {status : 400};
     }
 };
 
@@ -17,8 +16,7 @@ const getOne = async (email, password) => {
         return answer[0];
     }
     catch(err) {
-        console.log(err);
-        res.status(400).send({err: "L'utilisateur n'existe pas !"})
+        throw {status : 400};
     }
 }
 
@@ -28,7 +26,7 @@ const findUser = async (id) => {
         return answer[0];
     }
     catch(err) {
-        return res.status(400).send({err: 'Utilisateur non trouvé !'})
+        throw {status : 400};
     }
 }
 
@@ -38,7 +36,7 @@ const getUser = async (id) => {
         return answer[0];
     }
     catch(err) {
-        return res.status(400).json({ message: 'Utilisateur non trouvé !'});
+        throw {status : 400};
     }
 }
 
@@ -48,8 +46,7 @@ const updateUser = async (name, firstname, email, id) => {
         return answer[0];
     }
     catch(err) {
-        console.log(err);
-        return res.status(400).send({err: 'Impossible de modifier !'})
+        throw {status : 400};
     }
 }
 
@@ -59,7 +56,7 @@ const deleteUser = async (id) => {
         return answer[0];
     }
     catch(err) {
-        return res.status(400).send({err: 'Impossible de supprimer !'})
+        throw {status : 400};
     }
 }
 

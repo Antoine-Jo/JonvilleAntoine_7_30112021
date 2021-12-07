@@ -12,17 +12,18 @@ const signup = async (req, res, next) => {
     try {
         // console.log(req)
         const name = req.body.name.trim(); const firstname = req.body.firstname.trim(); const email = req.body.email.trim(); const password = req.body.password.trim();
-        if (name == "" || firstname == "" || email == "" || password == "") {
-            return res.status(400).json({ message: 'Les champs doivent être remplis !'})
-        }
+        
+        if (name == "" || firstname == "" || email == "" || password == "") throw { status: 400, msg: 'Les champs doivent être remplis !'}
+        
         const salt = await bcrypt.genSalt();
         pwdhash = await bcrypt.hash(password, salt);
         await insertUser(name, firstname, email, pwdhash)
         res.status(200).json({message: 'Utilisateur créé !'})
     }
     catch(err) {
-        // console.log("erreur :" + err);
-        res.status(400).send({err: 'Email déjà enregistré ! '})
+        return res
+        .status(err.status ? err.status : 500)
+        .send({err: err.msg ? err.msg : 'Email déjà enregistré ! '})
     }
 }
 
@@ -40,20 +41,20 @@ const login = async (req, res, next) => {
                 res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
                 return res.status(200).json({user: user.id});
             }
-            return res.status(400).send({message: 'Mot de passe incorrect !'})
+            throw {status: 400, msg: 'Mot de passe incorrect !'}
         }
-        return res.status(400).json({message: 'Email incorrect !'})
+        throw {status: 400, msg: 'Email incorrect !'}
     }
     catch(err) {
-        console.log('erreur :', err);
-        throw err
-        // return res.status(400).send({err: 'Utilisateur non inscrit !'});
+        return res
+        .status(err.status ? err.status : 500)
+        .send({err: err.msg ? err.msg : 'Utilisateur non inscrit !'})
     }
 }
 
 const logout = (req, res, next) => {
     res.cookie('jwt', '', { maxAge: 1 });
-    res.status(200).json('OUT');
+    res.status(200).json({msg : 'Vous vous êtes déconnecté'});
 }
 
 module.exports = {
