@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const {requireAuth} = require('./middleware/auth_middleware');
 const userRoutes = require('./routes/user_routes');
 const postRoutes = require('./routes/post_routes');
 
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-
+app.get('/jwtid', requireAuth)
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 

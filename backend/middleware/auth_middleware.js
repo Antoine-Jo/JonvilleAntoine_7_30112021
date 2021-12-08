@@ -27,3 +27,21 @@ module.exports = async (req, res, next) => {
         return res.status(401).json({ message: 'Non autorisé !'});
     }
 }
+
+module.exports.requireAuth = (req, res, next) => {
+    const token = req.cookies.jwt;
+    if(token) {
+        jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
+            if(err) {
+                console.log(err);
+            } else {
+                console.log(decodedToken.id);
+                res.status(200).json(decodedToken.id)
+                next();
+            }
+        })
+    } else {
+        console.log('No token');
+        res.status(400).send({err: 'No token'})
+    }
+}
