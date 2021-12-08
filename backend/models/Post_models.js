@@ -12,7 +12,7 @@ const insertPost = async (userId, text) => {
 
 const getPosts = async () => {
     try {
-        return await query("SELECT name, firstname, text, createdate FROM users INNER JOIN posts ON users.id = posts.userid ORDER BY createdate DESC");
+        return await query("SELECT idposts, id, name, firstname, text, createdate FROM users INNER JOIN posts ON users.id = posts.userid ORDER BY createdate DESC");
     }
     catch(err){
         console.log(err);
