@@ -54,6 +54,7 @@ const updateOnePost = async (req, res) => {
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
+    
     if (userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
       
     await updatePost(text, postId, post.userid);
@@ -76,7 +77,7 @@ const deleteOnePost = async (req, res) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
 
-    if(userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
+    if(userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de supprimer ce post"}
 
     await deletePost(postId, post.userid);
     return res.status(200).send({ message: "Suppression réussi !" });

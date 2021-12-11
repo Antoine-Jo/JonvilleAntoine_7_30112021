@@ -22,7 +22,7 @@ const getPosts = async () => {
 
 const getPost = async (idposts) => {
     try {
-        const answer = await query("SELECT name, firstname, text, createdate FROM groupomania.users INNER JOIN groupomania.posts ON users.id = posts.userid WHERE idposts = ?", [idposts])
+        const answer = await query("SELECT userid, name, firstname, text, createdate FROM groupomania.users INNER JOIN groupomania.posts ON users.id = posts.userid WHERE idposts = ?", [idposts])
         return answer[0];
     }
     catch(err) {
