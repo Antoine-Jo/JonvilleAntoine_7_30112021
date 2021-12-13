@@ -10,6 +10,15 @@ const insertUser = async (name, firstname, email, password) => {
     }
 };
 
+const getAllUsers = async () => {
+    try {
+        return await query("SELECT id, name, firstname, email, admin FROM users");
+    } 
+    catch (err) {
+        throw {status: 400};
+    }
+}
+
 const getOne = async (email, password) => {
     try {
         const answer = await query("SELECT * FROM users WHERE email LIKE ?", [email, password]);
@@ -62,6 +71,7 @@ const deleteUser = async (id) => {
 
 module.exports = {
     insertUser,
+    getAllUsers,
     getOne,
     findUser,
     getUser,

@@ -10,6 +10,7 @@ router.post('/login', authCtrl.login);
 router.get('/logout', authCtrl.logout);
 
 // Routes GET / UPDATE / DELETE
+router.get('/', auth, userCtrl.allUsers);
 router.get('/:id', auth, userCtrl.userInfo);
 router.put('/:id', auth, userCtrl.updateOneUser);
 router.delete('/:id', auth, userCtrl.deleteOneUser);

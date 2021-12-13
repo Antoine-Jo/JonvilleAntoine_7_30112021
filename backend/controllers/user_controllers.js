@@ -1,4 +1,4 @@
-const {getUser, updateUser, deleteUser} = require('../models/User_models');
+const {getUser, updateUser, deleteUser, getAllUsers} = require('../models/User_models');
 const jwt = require('jsonwebtoken');
 
 const userInfo = async (req, res, next) => {
@@ -12,6 +12,14 @@ const userInfo = async (req, res, next) => {
         } 
         delete user.password
         return res.status(200).json(user)
+}
+
+const allUsers = async (req, res, next) => {
+    const users = await getAllUsers();
+    if(!users) {
+        return res.status(400).send({ err: "Impossible de récupérer les utilisateurs"})
+    }
+    return res.status(200).json(users)
 }
 
 const updateOneUser = async (req, res, next) => {
@@ -50,6 +58,7 @@ const deleteOneUser = async (req, res, next) => {
 
 module.exports = {
     userInfo,
+    allUsers,
     updateOneUser,
     deleteOneUser
 }
