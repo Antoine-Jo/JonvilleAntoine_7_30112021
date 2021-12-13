@@ -54,10 +54,9 @@ const updateOnePost = async (req, res) => {
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
-    
-    if (userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
-      
-    await updatePost(text, postId, post.userid);
+    // if (userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
+    // if (admin == '0') throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
+    await updatePost(text, postId);
     return res.status(200).send({ message: "Modification réussi !" });
   } catch (err) {
     console.log(err);

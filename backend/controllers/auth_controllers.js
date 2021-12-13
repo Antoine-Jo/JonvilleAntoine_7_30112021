@@ -36,10 +36,10 @@ const login = async (req, res, next) => {
         if(user) {
             const auth = await bcrypt.compare(password, user.password);
             if(auth) {
-                console.log(user.id);
-                const token = createToken(user.id)
+                console.log(user.admin);
+                const token = createToken(user.id, user.admin)
                 res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
-                return res.status(200).json({user: user.id});
+                return res.status(200).json({user: user.id, admin: user.admin});
             }
             throw {status: 400, msg: 'Mot de passe incorrect !'}
         }
