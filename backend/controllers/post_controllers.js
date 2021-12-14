@@ -46,19 +46,25 @@ const getOnePost = async (req, res) => {
 
 const updateOnePost = async (req, res) => {
   try {
-    // if (req.auth.role !== "admin") return
+    //TODO Faire vérif admin ou auteur du post
+
     const postId = req.params.id;
+    const admin = req.body.admin;
+    console.log(admin);
     const post = await getPost(postId);
     if (!post) throw {status:404, msg : "Ce post est introuvable !" };
     const text = req.body.text;
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
-    // if (userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
-    // if (admin == '0') throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
-    await updatePost(text, postId);
-    return res.status(200).send({ message: "Modification réussi !" });
-  } catch (err) {
+    
+    if (admin === 1 || userId === post.userid) {
+      await updatePost(text, postId);
+      return res.status(200).send({ message: "Modification réussi !" });
+    }
+    throw {status : 403, msg :"Vous n'avez pas l'autorisation de modifier ce post"}
+  } 
+  catch (err) {
     console.log(err);
     return res
     .status(err.status ? err.status : 500)

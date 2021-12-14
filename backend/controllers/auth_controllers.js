@@ -4,8 +4,9 @@ const jwt = require('jsonwebtoken');
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
-const createToken = (id) => {
-    return jwt.sign({id}, process.env.TOKEN_SECRET, { expiresIn: maxAge })
+const createCookie = (id, key, res) =>{
+    return jwt.sign({id, key}, process.env.TOKEN_SECRET, { expiresIn: maxAge });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
 }
 
 const signup = async (req, res, next) => {
@@ -36,16 +37,17 @@ const login = async (req, res, next) => {
         if(user) {
             const auth = await bcrypt.compare(password, user.password);
             if(auth) {
-                console.log(user.admin);
-                const token = createToken(user.id, user.admin)
+                const token = createCookie(user.id, user.key)
+                // console.log(token);
                 res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
-                return res.status(200).json({user: user.id, admin: user.admin});
+                return res.status(200).json({user: user.id, key: user.key});
             }
             throw {status: 400, msg: 'Mot de passe incorrect !'}
         }
         throw {status: 400, msg: 'Email incorrect !'}
     }
     catch(err) {
+        console.log(err);
         return res
         .status(err.status ? err.status : 500)
         .send({err: err.msg ? err.msg : 'Utilisateur non inscrit !'})
@@ -60,5 +62,6 @@ const logout = (req, res, next) => {
 module.exports = {
     signup,
     login,
-    logout
+    logout,
+    createCookie
 }

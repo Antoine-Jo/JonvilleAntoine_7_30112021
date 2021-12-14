@@ -31,7 +31,7 @@ const getOne = async (email, password) => {
 
 const findUser = async (id) => {
     try {
-        const answer = await query("SELECT id FROM users WHERE id LIKE ?", [id]);
+        const answer = await query("SELECT * FROM users WHERE id = ?", [id]);
         return answer[0];
     }
     catch(err) {
@@ -69,6 +69,18 @@ const deleteUser = async (id) => {
     }
 }
 
+const updateKey= async (key, id) => {
+    try {
+        await query("UPDATE users SET `key` = ?  WHERE users.id = ?", [key, id])
+        // console.log(answer[0]);
+        // return answer[0];
+    }
+    catch(err) {
+        console.log(err);
+        throw {status : 400};
+    }
+}
+
 module.exports = {
     insertUser,
     getAllUsers,
@@ -76,5 +88,6 @@ module.exports = {
     findUser,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateKey
 }

@@ -26,6 +26,7 @@ const updateOneUser = async (req, res, next) => {
     const {name, firstname, email} = req.body
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
+    // TODO s'appuyer sur req.userInfo
    try {
        if(decodedToken.id != req.params.id) throw {status: 403, msg: "Vous n'avez pas l'autorisation de modifier ce profil"}
         
