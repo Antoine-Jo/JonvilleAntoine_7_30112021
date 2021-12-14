@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const {requireAuth} = require('./middleware/auth_middleware');
 const userRoutes = require('./routes/user_routes');
 const postRoutes = require('./routes/post_routes');
+const commentRoutes = require('./routes/comment_routes');
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.use(cookieParser());
 app.get('/jwtid', requireAuth)
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
+app.use('/api/post/comments', commentRoutes);
 
 module.exports = app;
