@@ -46,13 +46,13 @@ const getOnePost = async (req, res) => {
 
 const updateOnePost = async (req, res) => {
   try {
-    //TODO Faire vérif admin ou auteur du post
 
     const postId = req.params.id;
     const admin = req.body.admin;
-    console.log(admin);
     const post = await getPost(postId);
+
     if (!post) throw {status:404, msg : "Ce post est introuvable !" };
+    
     const text = req.body.text;
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -75,19 +75,22 @@ const updateOnePost = async (req, res) => {
 const deleteOnePost = async (req, res) => {
   try {
     const postId = req.params.id;
+    const admin = req.body.admin;
     const post = await getPost(postId);
+
     if (!post) throw {status:404, msg : "Ce post est introuvable !" };
 
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
 
-    if(userId !== post.userid) throw {status : 403, msg :"Vous n'avez pas l'autorisation de supprimer ce post"}
-
-    await deletePost(postId, post.userid);
-    return res.status(200).send({ message: "Suppression réussi !" });
-    
-  } catch(err) {
+    if(admin === 1 || userId === post.userid) {
+      await deletePost(postId, post.userid);
+      return res.status(200).send({ message: "Suppression réussi !" });
+    } 
+    throw {status : 403, msg :"Vous n'avez pas l'autorisation de supprimer ce post"}
+  } 
+  catch(err) {
     return res
     .status(err.status ? err.status : 500)
     .send({ err: err.msg ?err.msg : "Erreur lors de la suppression du post !" });

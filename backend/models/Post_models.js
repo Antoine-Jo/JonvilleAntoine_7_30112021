@@ -40,9 +40,9 @@ const updatePost = async (text, idposts) => {
     }
 }
 
-const deletePost = async (idposts, userid) => {
+const deletePost = async (idposts) => {
     try {
-        const answer = await query("DELETE FROM posts WHERE idposts = ? AND userid = ?", [idposts, userid])
+        const answer = await query("DELETE FROM posts WHERE idposts = ?", [idposts])
         return answer[0];
     }
     catch(err) {
