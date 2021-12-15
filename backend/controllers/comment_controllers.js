@@ -1,4 +1,4 @@
-const { insertComment, getComments, getCommentsByPost } = require("../models/Comment_models");
+const { insertComment, getComments, getCommentsByPost, getOneComment, updateOneComment, deleteOneComment } = require("../models/Comment_models");
 const jwt = require('jsonwebtoken');
 
 const createComment = async (req, res, next) => {
@@ -34,11 +34,13 @@ const getAllComments = async (req, res) => {
 
 const getAllCommentsByPost = async (req, res) => {
     try {
-        let postId = req.params.id
+        const postId = parseInt(req.params.id);
         console.log(postId);
-        const comments = await getCommentsByPost(postId)
-        if (!comments) throw {status : 404, msg: "Ces commentaires sont introuvable !"}
-        return res.status(200).json(comments)
+        
+        const allComments = await getCommentsByPost(postId)
+        
+        if (!allComments) throw {status : 404, msg: "Ces commentaires sont introuvable !"}
+        return res.status(200).json(allComments)
     } catch (err) {
         console.log(err);
         return res
@@ -47,8 +49,61 @@ const getAllCommentsByPost = async (req, res) => {
     }
 }
 
+const updateComment = async (req, res) => {
+    try {
+        const id = req.params.id
+        const admin = req.body.admin;
+        const text = req.body.text;
+        const token = req.cookies.jwt;
+        const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+        const userId = decodedToken.id
+        const comment = await getOneComment(id)
+        if (!comment) throw {status: 404, msg: "Ce commentaire est introuvable !"};
+        console.log(userId, comment.id, id);
+
+        if (admin === 1 || userId === comment.userId) {
+            await updateOneComment(text, id)
+            return res.status(200).send({ msg: "Modification réussi !" })
+        }
+        throw {status: 403, msg: "Vous n'avez pas l'autorisation de modifier ce commentaire"}
+    } catch (err) {
+        console.log(err);
+        return res
+        .status(err.status ? err.status : 500)
+        .send({ err: err.msg ?err.msg : "Erreur lors de la modification du commentaire !" });
+    }
+}
+
+const deleteComment = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const admin = req.body.admin;
+        const comment = await getOneComment(id);
+
+        if (!comment) throw {status: 404, msg: "Ce comment est introuvable :"}
+
+        const token = req.cookies.jwt;
+        const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+        const userId = decodedToken.id;
+
+        if(admin === 1 || userId === comment.userId) {
+            await deleteOneComment(id)
+            return res.status(200).send({ msg: "Suppression réussi !" })
+        }
+        throw {status: 403, msg: "Vous n'avez pas l'autorisation de supprimer ce post"}
+
+    } catch (err) {
+        console.log(err);
+        return res
+        .status(err.status ? err.status : 500)
+        .send({ err: err.msg ?err.msg : "Erreur lors de la suppression du commentaire !" });
+    }
+}
+
 module.exports = {
     createComment,
     getAllComments,
-    getAllCommentsByPost
+    getAllCommentsByPost,
+    updateComment,
+    deleteComment
 }
