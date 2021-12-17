@@ -38,6 +38,16 @@ const getOneComment = async (id) => {
     }
 }
 
+const countCommentByPost = async (idpost) => {
+    try {
+        const answer = await query('SELECT COUNT(*) AS total FROM groupomania.comments WHERE postId = ?', [idpost])
+        return answer[0]
+    } catch (err) {
+        console.log(err);
+        throw {status : 400, msg: "Une erreur est survenue !"};
+    }
+}
+
 const updateOneComment = async (text, id) => {
     try {
         await query("UPDATE comments SET text = ? WHERE comments.id = ?", [text, id])
@@ -61,6 +71,7 @@ module.exports = {
     insertComment,
     getComments,
     getCommentsByPost,
+    countCommentByPost,
     getOneComment,
     updateOneComment,
     deleteOneComment

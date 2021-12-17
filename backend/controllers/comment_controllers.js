@@ -1,4 +1,4 @@
-const { insertComment, getComments, getCommentsByPost, getOneComment, updateOneComment, deleteOneComment } = require("../models/Comment_models");
+const { insertComment, getComments, getCommentsByPost, getOneComment, updateOneComment, deleteOneComment, countCommentByPost } = require("../models/Comment_models");
 const jwt = require('jsonwebtoken');
 
 const createComment = async (req, res, next) => {
@@ -46,6 +46,20 @@ const getAllCommentsByPost = async (req, res) => {
         return res
         .status(err.status ? err.status : 500)
         .send({err: err.msg ? err.msg : 'Erreur lors de la récupération des commentaires !'})
+    }
+}
+
+const countComment = async (req, res) => {
+    try {
+        const idpost = req.params.id
+        const number = await countCommentByPost(idpost);
+        console.log(number);
+        return res.status(200).json(number)
+    } catch (err) {
+        console.log(err);
+        return res
+        .status(err.status ? err.status : 500)
+        .send({ err: err.msg ?err.msg : "Erreur lors du comptage des commentaires !" });
     }
 }
 
@@ -104,6 +118,7 @@ module.exports = {
     createComment,
     getAllComments,
     getAllCommentsByPost,
+    countComment,
     updateComment,
     deleteComment
 }
