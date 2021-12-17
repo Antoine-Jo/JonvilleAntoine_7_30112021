@@ -53,7 +53,7 @@ const countComment = async (req, res) => {
     try {
         const idpost = req.params.id
         const number = await countCommentByPost(idpost);
-        console.log(number);
+        // console.log(number);
         return res.status(200).json(number)
     } catch (err) {
         console.log(err);
