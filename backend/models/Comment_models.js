@@ -41,7 +41,7 @@ const getOneComment = async (id) => {
 const countCommentByPost = async (idpost) => {
     try {
         const answer = await query('SELECT COUNT(*) AS total FROM groupomania.comments WHERE postId = ?', [idpost])
-        return answer[0]
+        return answer[0];
     } catch (err) {
         console.log(err);
         throw {status : 400, msg: "Une erreur est survenue !"};

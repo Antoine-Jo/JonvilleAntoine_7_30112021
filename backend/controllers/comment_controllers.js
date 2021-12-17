@@ -59,7 +59,7 @@ const countComment = async (req, res) => {
         console.log(err);
         return res
         .status(err.status ? err.status : 500)
-        .send({ err: err.msg ?err.msg : "Erreur lors du comptage des commentaires !" });
+        .send({ err: err.msg ?err.msg : "Erreur lors du comptage des commentaires" });
     }
 }
 
