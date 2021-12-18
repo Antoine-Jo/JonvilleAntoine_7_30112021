@@ -55,6 +55,7 @@ const getLike = async (userId, postId) => {
         const answer = await query("SELECT * FROM likes WHERE userId = ? AND postId = ?", [userId, postId])
         return answer.length;
     } catch (err) {
+        console.log(err);
         throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }
@@ -63,6 +64,7 @@ const createLike = async (userId, postId) => {
     try {
         await query("INSERT INTO likes (userId, postId) VALUES (?, ?)", [userId, postId])
     } catch (err) {
+        // console.log(err);
         throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }
@@ -71,6 +73,7 @@ const deleteLike = async (userId, postId) => {
     try {
         await query("DELETE FROM likes WHERE userId = ? AND postId = ?", [userId, postId])
     } catch (err) {
+        // console.log(err);
         throw {status : 400, msg: "Une erreur est survenue !"};
     }
 }

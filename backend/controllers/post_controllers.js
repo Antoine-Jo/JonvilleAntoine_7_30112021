@@ -99,7 +99,7 @@ const deleteOnePost = async (req, res) => {
 
 const likePost = async (req, res) => {
   try {
-    const postId = req.body.postId;
+    const postId = req.params.id;
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
@@ -116,6 +116,7 @@ const likePost = async (req, res) => {
       // send({ message: "Le post a été dislike !"})
     }
   } catch (err) {
+    // console.log(err);
     return res
     .status(err.status ? err.status : 500)
     .send({ err: err.msg ?err.msg : "Erreur lors d'un like/unlike !" });
