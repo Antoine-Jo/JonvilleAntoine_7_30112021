@@ -103,19 +103,18 @@ const likePost = async (req, res) => {
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = decodedToken.id;
-    // console.log(postId);
+
     const likes = await getLike(userId, postId)
-    console.log(likes);
-    // if (!likes) throw {status:404, msg : "Ce post est introuvable !" };
 
     if (likes === 0 ) {
       await createLike(userId, postId)
-      return res.status(200).send({ message: "Le post est like !"})
+      return res.status(200).json({likes})
+      // send({ message: "Le post est like !"})
     } else {
       await deleteLike(userId, postId)
-      return res.status(200).send({ message: "Le post a été dislike !"})
+      return res.status(200).json({likes})
+      // send({ message: "Le post a été dislike !"})
     }
-    // console.log(likes);
   } catch (err) {
     return res
     .status(err.status ? err.status : 500)
