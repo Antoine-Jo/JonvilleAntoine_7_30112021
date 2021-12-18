@@ -50,10 +50,38 @@ const deletePost = async (idposts) => {
     }
 }
 
+const getLike = async (userId, postId) => {
+    try {
+        const answer = await query("SELECT * FROM likes WHERE userId = ? AND postId = ?", [userId, postId])
+        return answer.length;
+    } catch (err) {
+        throw {status : 400, msg: "Une erreur est survenue !"};
+    }
+}
+
+const createLike = async (userId, postId) => {
+    try {
+        await query("INSERT INTO likes (userId, postId) VALUES (?, ?)", [userId, postId])
+    } catch (err) {
+        throw {status : 400, msg: "Une erreur est survenue !"};
+    }
+}
+
+const deleteLike = async (userId, postId) => {
+    try {
+        await query("DELETE FROM likes WHERE userId = ? AND postId = ?", [userId, postId])
+    } catch (err) {
+        throw {status : 400, msg: "Une erreur est survenue !"};
+    }
+}
+
 module.exports = {
     deletePost,
     updatePost,
     getPost,
     getPosts,
-    insertPost
+    insertPost,
+    getLike,
+    createLike,
+    deleteLike
 }

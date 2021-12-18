@@ -10,4 +10,7 @@ router.get('/:id', auth, postCtrl.getOnePost);
 router.put('/:id', auth, postCtrl.updateOnePost);
 router.delete('/:id', auth, postCtrl.deleteOnePost);
 
+// Routes Like/Unlikes
+router.patch('/:id/like', auth, postCtrl.likePost);
+
 module.exports = router;
