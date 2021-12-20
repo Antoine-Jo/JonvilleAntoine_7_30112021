@@ -123,10 +123,12 @@ const likePost = async (req, res) => {
   }
 }
 
-const allLikes = async (req, res) => {
+const allLikesByPost = async (req, res) => {
   try {
-    const likes = await getAllLikes()
-    console.log(likes);
+    const postId = req.params.id;
+
+    const likes = await getAllLikes(postId)
+    // console.log(likes);
     return res.status(200).json(likes)
   } catch (err) {
     console.log(err);
@@ -143,5 +145,5 @@ module.exports = {
     updateOnePost,
     deleteOnePost,
     likePost,
-    allLikes
+    allLikesByPost
 }

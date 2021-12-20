@@ -12,6 +12,6 @@ router.delete('/:id', auth, postCtrl.deleteOnePost);
 
 // Routes Like/Unlikes
 router.patch('/:id/like', auth, postCtrl.likePost);
-router.patch('/alllikes', auth, postCtrl.allLikes);
+router.get('/:id/likes', auth, postCtrl.allLikesByPost);
 
 module.exports = router;

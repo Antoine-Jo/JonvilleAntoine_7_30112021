@@ -78,9 +78,9 @@ const deleteLike = async (userId, postId) => {
     }
 }
 
-const getAllLikes = async () => {
+const getAllLikes = async (postId) => {
     try {
-        const answer = await query("SELECT * FROM likes");
+        const answer = await query("SELECT * FROM likes WHERE postId = ?", [postId]);
         return answer;
     } catch (err) {
         console.log(err);
