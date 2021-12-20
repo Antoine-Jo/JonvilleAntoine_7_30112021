@@ -22,7 +22,7 @@ exports.query = async (sql, props) => {
     }
     finally {
         if(conn) conn.release(); //release to pool
-        // if (res.meta) delete res.meta; //delete meta
+        if (res.meta) delete res.meta; //delete meta
         console.log('Je suis connecter !');
         // return res;
     }

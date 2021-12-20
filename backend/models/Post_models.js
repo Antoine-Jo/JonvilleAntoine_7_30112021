@@ -78,6 +78,16 @@ const deleteLike = async (userId, postId) => {
     }
 }
 
+const getAllLikes = async () => {
+    try {
+        const answer = await query("SELECT * FROM likes");
+        return answer;
+    } catch (err) {
+        console.log(err);
+        throw {status : 400, msg: "Une erreur est survenue !"};
+    }
+}
+
 module.exports = {
     deletePost,
     updatePost,
@@ -86,5 +96,6 @@ module.exports = {
     insertPost,
     getLike,
     createLike,
-    deleteLike
+    deleteLike,
+    getAllLikes
 }

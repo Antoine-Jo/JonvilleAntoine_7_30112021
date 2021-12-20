@@ -1,4 +1,4 @@
-const { insertPost, updatePost, getPost, deletePost, getPosts, getLike, createLike, deleteLike } = require('../models/Post_models');
+const { insertPost, updatePost, getPost, deletePost, getPosts, getLike, createLike, deleteLike, getAllLikes } = require('../models/Post_models');
 const jwt = require('jsonwebtoken');
 
 const createPost = async (req, res, next) => {
@@ -123,11 +123,25 @@ const likePost = async (req, res) => {
   }
 }
 
+const allLikes = async (req, res) => {
+  try {
+    const likes = await getAllLikes()
+    console.log(likes);
+    return res.status(200).json(likes)
+  } catch (err) {
+    console.log(err);
+    return res
+    .status(err.status ? err.status : 500)
+    .send({ err: err.msg ?err.msg : "Erreur lors de la récupération des likes !" });
+  }
+}
+
 module.exports = {
     createPost,
     getAllPost,
     getOnePost,
     updateOnePost,
     deleteOnePost,
-    likePost
+    likePost,
+    allLikes
 }
