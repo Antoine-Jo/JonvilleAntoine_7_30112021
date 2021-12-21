@@ -126,8 +126,11 @@ const likePost = async (req, res) => {
 const allLikesByPost = async (req, res) => {
   try {
     const postId = req.params.id;
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+    const userId = decodedToken.id;
 
-    const likes = await getAllLikes(postId)
+    const likes = await getAllLikes(userId, postId)
     // console.log(likes);
     return res.status(200).json(likes)
   } catch (err) {
