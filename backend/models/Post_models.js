@@ -88,6 +88,16 @@ const getAllLikes = async (userId, postId) => {
     }
 }
 
+const countLikes = async (postId) => {
+    try {
+       const answer = await query("SELECT COUNT(*) AS total FROM likes WHERE postId = ?", [postId]) 
+       return answer[0];
+    } catch (err) {
+        console.log(err);
+        throw {status : 400, msg: "Une erreur est survenue !"};
+    }
+}
+
 module.exports = {
     deletePost,
     updatePost,
@@ -97,5 +107,6 @@ module.exports = {
     getLike,
     createLike,
     deleteLike,
-    getAllLikes
+    getAllLikes,
+    countLikes
 }
