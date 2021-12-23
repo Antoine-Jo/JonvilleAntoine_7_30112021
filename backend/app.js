@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const path = require('path');
 const {requireAuth} = require('./middleware/auth_middleware');
 const userRoutes = require('./routes/user_routes');
 const postRoutes = require('./routes/post_routes');
@@ -22,7 +23,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-app.get('/jwtid', requireAuth)
+app.get('/jwtid', requireAuth);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/post/comments', commentRoutes);

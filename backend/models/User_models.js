@@ -81,6 +81,16 @@ const updateKey= async (key, id) => {
     }
 }
 
+const createPicture = async (picture, userId) => {
+    try {
+        const answer = await query("INSERT INTO `users` (`picture`) VALUES (?) WHERE users.id = ?", [picture, userId])
+        return answer;
+    } catch (err) {
+        console.log(err);
+        throw {status : 400};
+    }
+}
+
 module.exports = {
     insertUser,
     getAllUsers,
@@ -89,5 +99,6 @@ module.exports = {
     getUser,
     updateUser,
     deleteUser,
-    updateKey
+    updateKey,
+    createPicture
 }

@@ -1,5 +1,8 @@
-const {getUser, updateUser, deleteUser, getAllUsers} = require('../models/User_models');
+const {getUser, updateUser, deleteUser, getAllUsers, createPicture} = require('../models/User_models');
 const jwt = require('jsonwebtoken');
+const fs = require('fs')
+const { promisify } = require('util')
+const pipeline = promisify(require('stream').pipeline);
 
 const userInfo = async (req, res, next) => {
     // console.log(req.params)
@@ -57,9 +60,28 @@ const deleteOneUser = async (req, res, next) => {
     }
 }
 
+const uploadProfil = async (req, res) => {
+    try {
+        // let {destination, filename} = req.file
+        // destination = destination + filename
+        // const token = req.cookies.jwt;
+        // const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+        // const userId = decodedToken.id;
+        // await createPicture(destination, userId)
+        // return res.status(200).send({message: 'Image upload !'})
+    } catch (err) {
+        console.log(err)
+        return res
+        .status(err.status ? err.status : 500)
+        .send({err: err.msg ? err.msg : "Une erreur est survenue lors de l'upload d'une photo"})
+    }
+
+}
+
 module.exports = {
     userInfo,
     allUsers,
     updateOneUser,
-    deleteOneUser
+    deleteOneUser,
+    uploadProfil
 }
