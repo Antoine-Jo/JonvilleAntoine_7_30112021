@@ -83,7 +83,7 @@ const updateKey= async (key, id) => {
 
 const createPicture = async (picture, userId) => {
     try {
-        const answer = await query("INSERT INTO `users` (`picture`) VALUES (?) WHERE users.id = ?", [picture, userId])
+        const answer = await query("UPDATE users SET `picture` = ? WHERE users.id = ?", [picture, userId])
         return answer;
     } catch (err) {
         console.log(err);
