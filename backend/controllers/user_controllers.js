@@ -62,13 +62,14 @@ const deleteOneUser = async (req, res, next) => {
 
 const uploadProfil = async (req, res) => {
     try {
-        // let {destination, filename} = req.file
-        // destination = destination + filename
-        // const token = req.cookies.jwt;
-        // const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
-        // const userId = decodedToken.id;
-        // await createPicture(destination, userId)
-        // return res.status(200).send({message: 'Image upload !'})
+        const picture = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        console.log(req.file.filename);
+        // const picture = req.file.name
+        const token = req.cookies.jwt;
+        const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+        const userId = decodedToken.id;
+        await createPicture(picture, userId)
+        return res.status(200).send({message: 'Image upload !'})
     } catch (err) {
         console.log(err)
         return res

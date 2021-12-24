@@ -83,7 +83,8 @@ const updateKey= async (key, id) => {
 
 const createPicture = async (picture, userId) => {
     try {
-        await query("UPDATE users SET `picture` = ? WHERE users.id = ?", [picture, userId])
+        const answer = await query("UPDATE users SET `picture` = ? WHERE users.id = ?", [picture, userId])
+        return answer[0]
     } catch (err) {
         console.log(err);
         throw {status : 400};

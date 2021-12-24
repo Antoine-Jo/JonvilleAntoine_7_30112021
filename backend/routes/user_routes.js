@@ -3,8 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth_middleware');
 const authCtrl = require('../controllers/auth_controllers');
 const userCtrl = require('../controllers/user_controllers');
-const multer = require('multer')
-const upload = multer()
+const multer = require('../middleware/multer-config')
 
 // Route authentification
 router.post("/signup", authCtrl.signup);
@@ -18,6 +17,6 @@ router.put('/:id', auth, userCtrl.updateOneUser);
 router.delete('/:id', auth, userCtrl.deleteOneUser);
 
 // Upload images
-router.post('/upload', auth, upload.single('file'), userCtrl.uploadProfil)
+router.post('/upload', auth, multer, userCtrl.uploadProfil)
 
 module.exports = router;

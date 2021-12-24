@@ -12,7 +12,7 @@ const insertPost = async (userId, text) => {
 
 const getPosts = async () => {
     try {
-        return await query("SELECT idposts, id, name, firstname, text, createdate FROM users INNER JOIN posts ON users.id = posts.userid ORDER BY createdate DESC");
+        return await query("SELECT idposts, id, name, firstname, text, picture, createdate FROM users INNER JOIN posts ON users.id = posts.userid ORDER BY createdate DESC");
     }
     catch(err){
         console.log(err);
@@ -22,7 +22,7 @@ const getPosts = async () => {
 
 const getPost = async (idposts) => {
     try {
-        const answer = await query("SELECT userid, name, firstname, admin, text, createdate FROM groupomania.users INNER JOIN groupomania.posts ON users.id = posts.userid WHERE idposts = ?", [idposts])
+        const answer = await query("SELECT userid, name, firstname, admin, picture, text, createdate FROM groupomania.users INNER JOIN groupomania.posts ON users.id = posts.userid WHERE idposts = ?", [idposts])
         return answer[0];
     }
     catch(err) {
