@@ -1,8 +1,6 @@
 const {getUser, updateUser, deleteUser, getAllUsers, createPicture} = require('../models/User_models');
 const jwt = require('jsonwebtoken');
-const fs = require('fs')
-const { promisify } = require('util')
-const pipeline = promisify(require('stream').pipeline);
+const fs = require('fs');
 
 const userInfo = async (req, res, next) => {
     // console.log(req.params)
@@ -48,10 +46,13 @@ const deleteOneUser = async (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
     try {
         if(decodedToken.id != req.params.id) throw {status: 403, msg: "Vous n'avez pas l'autorisation de supprimer ce profil"}
-       
-        await deleteUser(req.params.id)
-        res.cookie('jwt', '', { maxAge: 1 })
-        return res.status(200).send({message: 'Votre compte a été supprimé !'})
+        const user = await getUser(req.params.id)
+        const filename = user.picture.split('/images/')[1];
+        fs.unlink(`images/${filename}`, async () => {
+            await deleteUser(req.params.id)
+            res.cookie('jwt', '', { maxAge: 1 })
+            return res.status(200).send({message: 'Votre compte a été supprimé !'})
+        })
     }
     catch(err) {
         return res
