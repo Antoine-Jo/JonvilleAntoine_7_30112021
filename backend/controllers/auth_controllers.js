@@ -6,7 +6,7 @@ const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 const createCookie = (id, key, res) =>{
     return jwt.sign({id, key}, process.env.TOKEN_SECRET, { expiresIn: maxAge });
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
+    // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge })
 }
 
 const signup = async (req, res, next) => {

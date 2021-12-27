@@ -73,7 +73,7 @@ const updateComment = async (req, res) => {
         const userId = decodedToken.id
         const comment = await getOneComment(id)
         if (!comment) throw {status: 404, msg: "Ce commentaire est introuvable !"};
-        console.log(userId, comment.id, id);
+        // console.log(userId, comment.id, id);
 
         if (admin === 1 || userId === comment.userId) {
             await updateOneComment(text, id)

@@ -8,7 +8,7 @@ const createPost = async (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
         let userId = decodedToken.id
         await insertPost(userId, text)
-        console.log(userId, text);
+        // console.log(userId, text);
         res.status(200).json({message: 'Votre post a été envoyé !'})
     }
     catch(err) {

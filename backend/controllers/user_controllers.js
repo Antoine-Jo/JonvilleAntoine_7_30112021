@@ -9,7 +9,7 @@ const userInfo = async (req, res, next) => {
     // console.log(decodedToken.id);
     const user = await getUser(req.params.id)
         if(!user) {
-            return res.status(400).send({ err: "Cet utilisateur n'existe pas"})
+            return res.status(404).send({ err: "Cet utilisateur n'existe pas"})
         } 
         delete user.password
         return res.status(200).json(user)
