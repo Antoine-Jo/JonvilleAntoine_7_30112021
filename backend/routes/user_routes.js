@@ -4,9 +4,10 @@ const auth = require('../middleware/auth_middleware');
 const authCtrl = require('../controllers/auth_controllers');
 const userCtrl = require('../controllers/user_controllers');
 const multer = require('../middleware/multer-config')
+const checkPassword = require("../middleware/check-password");
 
 // Route authentification
-router.post("/signup", authCtrl.signup);
+router.post("/signup", checkPassword, authCtrl.signup);
 router.post('/login', authCtrl.login);
 router.get('/logout', authCtrl.logout);
 

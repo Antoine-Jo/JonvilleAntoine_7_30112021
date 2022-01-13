@@ -46,15 +46,16 @@ const deleteOneUser = async (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
     try {
         if(decodedToken.id != req.params.id) throw {status: 403, msg: "Vous n'avez pas l'autorisation de supprimer ce profil"}
-        const user = await getUser(req.params.id)
-        const filename = user.picture.split('/images/')[1];
-        fs.unlink(`images/${filename}`, async () => {
+        // const user = await getUser(req.params.id)
+        // const filename = user.picture.split('/images/')[1];
+        // fs.unlink(`images/${filename}`, async () => {
             await deleteUser(req.params.id)
             res.cookie('jwt', '', { maxAge: 1 })
             return res.status(200).send({message: 'Votre compte a été supprimé !'})
-        })
+        // })
     }
     catch(err) {
+        console.log(err);
         return res
         .status(err.status ? err.status : 500)
         .send({err: err.msg ? err.msg : 'Une erreur est survenue lors de la suppression du profil'})
