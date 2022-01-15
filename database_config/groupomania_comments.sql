@@ -30,7 +30,7 @@ CREATE TABLE `comments` (
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,6 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (109,212,134,'Coucou :D','2021-12-17 15:12:16'),(110,245,134,'Salut Doc\', quoi d\'neuf ?','2021-12-17 15:12:49'),(111,261,134,'Rien de fou Hulk et toi ?!','2021-12-17 15:13:28'),(114,212,134,'Salut','2021-12-17 17:19:22'),(170,212,201,'Salut ça va ?','2021-12-21 15:30:28'),(171,262,201,'Hello ','2021-12-21 15:32:01'),(172,261,201,'Ca va et vous les gars ?','2021-12-21 15:32:13');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-30 13:12:36
+-- Dump completed on 2022-01-15 11:06:43

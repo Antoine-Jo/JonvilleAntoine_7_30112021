@@ -33,7 +33,7 @@ CREATE TABLE `users` (
   `picture` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=269 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=286 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (212,'Marion','Chargée de communication','groupomania@groupomania.com','$2b$10$Cw9gDYyLb8Rek.nkoQqPAeQJZ/3RsUYzzXQ8SBEd6lhU2cNkbYT12',1,'mneXq','http://localhost:5000/images/icon.png1640356839456.png'),(245,'Monsieur','Hulk','hulk@hulk.com','$2b$10$d365e1ERMEcx2KKQpCs6FOy7NjxwA9EzE7OhNaMRoLRCTMA65tu3a',0,'eRj0q','http://localhost:5000/images/Hulk.jpg1640356801568.jpg'),(255,'Sparrow','Jack','jack@jack.com','$2b$10$6F7n7JS0oGQaDFy6qDt40uuLxhqISWLXe13jJgNGxLYrltjR6jniq',0,'f2KDF','http://localhost:5000/images/Jack_Sparrow.jpg1640355323681.jpg'),(261,'Docteur','Octopus','octopus@octopus.com','$2b$10$Nqw2VC6o3Lb3.6APPUzgw.bOUh7St2MA9/WT3ifh0kEPLtCVpgOxK',0,'n2T7t','http://localhost:5000/images/octopus.jpg1640356775597.jpg'),(262,'De Riv','Geralt','geralt@geralt.com','$2b$10$AWGMpSiSwlccZsxdsLCYY.qgNpCW3ptPmT.tfEXHtLoBVZ5e9L3nq',0,'eg5yV','http://localhost:5000/images/geralt.jpg1640355269301.jpg');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-30 13:12:36
+-- Dump completed on 2022-01-15 11:06:43

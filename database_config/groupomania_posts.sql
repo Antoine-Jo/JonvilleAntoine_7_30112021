@@ -29,7 +29,7 @@ CREATE TABLE `posts` (
   `createdate` datetime DEFAULT NULL,
   PRIMARY KEY (`idposts`),
   UNIQUE KEY `idposts_UNIQUE` (`idposts`)
-) ENGINE=InnoDB AUTO_INCREMENT=222 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,6 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (125,212,'Bonsoir à tous, et Bienvenue sur le Réseau Social de Groupomania ! Je suis Marion, chargé de la communication, je suis également ici pour modérer vos messages, alors soyez respectueux ! Merci et bonne soirée à tous !','2021-12-16 18:50:33'),(132,255,'Comment vous allez aujourd\'hui ?','2021-12-17 15:07:20'),(134,261,'Hey Salut à tous !','2021-12-17 15:12:02'),(200,262,'HEYYYYYYYYYYY !!!','2021-12-21 15:14:03'),(201,261,'Hello World !!','2021-12-21 15:30:12');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-30 13:12:36
+-- Dump completed on 2022-01-15 11:06:43
