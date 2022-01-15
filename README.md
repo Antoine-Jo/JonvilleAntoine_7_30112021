@@ -29,3 +29,7 @@ Une fois tout ceci fait, dans le terminal tapez la commande :
 ```
 $ npx nodemon server
 ```
+
+## Utilisateur Admin :
+
+Pour avoir un compte Admin sur le réseau social, il faut, pour cette version, mettre manuellement la colonne "admin" dans la table "users" sur 1.
